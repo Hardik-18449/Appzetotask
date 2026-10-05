@@ -1,0 +1,27 @@
+{
+  "name": "nexus-project-root",
+  "version": "1.0.0",
+  "description": "Multi-Tenant Project Management & Collaboration System - Nexus Workspace",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "test:backend": "cd backend && npm test",
+    "seed": "cd backend && npm run seed"
+  },
+  "keywords": [
+    "multi-tenant",
+    "kanban",
+    "rbac",
+    "websockets",
+    "audit-log",
+    "react",
+    "typescript",
+    "node",
+    "express",
+    "mongodb"
+  ],
+  "author": "Full Stack Candidate",
+  "license": "MIT"
+}
