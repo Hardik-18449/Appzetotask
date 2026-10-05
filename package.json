@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "Multi-Tenant Project Management & Collaboration System - Nexus Workspace",
   "scripts": {
-    "dev:backend": "cd backend && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "build:backend": "cd backend && npm run build",
-    "build:frontend": "cd frontend && npm run build",
-    "test:backend": "cd backend && npm test",
-    "seed": "cd backend && npm run seed"
+    "dev": "concurrently -k -p \"[{name}]\" -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "concurrently \"npm --prefix backend run build\" \"npm --prefix frontend run build\"",
+    "build:backend": "npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "test": "npm --prefix backend test",
+    "test:backend": "npm --prefix backend test",
+    "seed": "npm --prefix backend run seed"
   },
   "keywords": [
     "multi-tenant",
@@ -23,5 +26,8 @@
     "mongodb"
   ],
   "author": "Full Stack Candidate",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
 }

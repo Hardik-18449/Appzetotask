@@ -77,23 +77,24 @@ flowchart TD
 * **npm**: `v9+`
 * **MongoDB**: Connected to MongoDB Atlas cluster (`mongodb+srv://...`).
 
-### Running Locally
+### Running Locally (Single Command)
 
-1. **Start Backend**:
+1. **Start Both Backend & Frontend**:
    ```bash
-   cd backend
-   npm install
-   npm run dev       # Starts backend on http://localhost:5000 connected to MongoDB Atlas
+   npm run dev
    ```
+   * Running `npm run dev` directly from the root directory concurrently starts **both** the Express.js Backend (`http://localhost:5000` connected to MongoDB Atlas) and the Vite React Frontend (`http://localhost:5173`) synchronously with unified logging.
 
-2. **Start Frontend** (in a separate terminal):
+2. **Open the Application**:
+   Open your browser at **`http://localhost:5173`**.
+
+3. **Individual Commands** (Optional):
    ```bash
-   cd frontend
-   npm install
-   npm run dev       # Starts Vite dev server on http://localhost:5173
+   npm run dev:backend    # Starts only backend on port 5000
+   npm run dev:frontend   # Starts only frontend on port 5173
+   npm test               # Runs 13/13 backend integration test suite
+   npm run seed           # Re-seeds MongoDB Atlas with initial tenants
    ```
-
-3. Open your browser at **`http://localhost:5173`**.
 
 ---
 
