@@ -17,7 +17,6 @@
 10. [Security Considerations](#10-security-considerations)
 11. [Testing Strategy](#11-testing-strategy)
 12. [Known Limitations](#12-known-limitations)
-13. [What Would Be Improved with Another 2 Days](#13-what-would-be-improved-with-another-2-days)
 
 ---
 
@@ -49,22 +48,24 @@
 ## 2. Architecture Diagram
 
 ```mermaid
-graph TD
-    Client["React 18 + TypeScript Client (Vite, Tailwind, Dnd)"]
-    Gateway["Express.js API Gateway & Middleware"]
-    AuthMW["Auth & JWT Middleware (HTTP-Only Cookie Extraction)"]
+flowchart TD
+    Client["React 18 and TypeScript Client (Vite, Tailwind)"]
+    Gateway["Express.js API Gateway and Middleware"]
+    AuthMW["Auth and JWT Middleware (HTTP-Only Cookies)"]
     TenantMW["Multi-Tenant Resolution (x-organization-id)"]
-    RBACMW["Server-Side RBAC Guards (OWNER / ADMIN / MEMBER / VIEWER)"]
-    SocketServer["Socket.IO Real-Time Engine (Rooms: project, org, user)"]
-    Services["Services Layer (AuditService, NotificationService, SocketService)"]
-    DB[("MongoDB Atlas (Compound Indexes, Text Search)")]
+    RBACMW["Server-Side RBAC Guards (OWNER, ADMIN, MEMBER, VIEWER)"]
+    SocketServer["Socket.IO Real-Time Engine"]
+    Services["Services Layer (Audit, Notification, Socket)"]
+    DB[("MongoDB Atlas Cluster")]
 
-    Client <-->|REST API + Cookies + x-organization-id| Gateway
-    Client <-->|WebSockets (Live Events + Handshake Cookies)| SocketServer
-    Gateway --> AuthMW --> TenantMW --> RBACMW
+    Client -->|"REST API and Cookies"| Gateway
+    Client <-->|"WebSockets and Live Events"| SocketServer
+    Gateway --> AuthMW
+    AuthMW --> TenantMW
+    TenantMW --> RBACMW
     RBACMW --> Services
     Services --> DB
-    Services -->|Broadcast Mutations| SocketServer
+    Services -->|"Broadcast Mutations"| SocketServer
 ```
 
 ---
@@ -267,12 +268,4 @@ npm test
 * **File Storage**: Attachments currently store URL references and metadata. Production deployment would integrate an S3/GCS presigned upload pipeline.
 * **Single Node WebSockets**: Socket.IO runs in-memory. For horizontal multi-node cluster scaling, a Redis Adapter (`@socket.io/redis-adapter`) is recommended.
 
----
 
-## 13. What Would Be Improved with Another 2 Days
-
-1. **Redis Pub/Sub & Socket Adapter**: Cluster-wide WebSocket synchronization across multiple load-balanced backend containers.
-2. **Elasticsearch / Atlas Search**: Fuzzy matching, autocomplete, and faceting for tasks across large repositories.
-3. **Presigned S3 File Uploads**: Direct S3 upload with virus scanning and thumbnail generation for attachments.
-4. **Custom Kanban Columns**: Allowing organization admins to define custom workflow states beyond the standard 4 columns.
-5. **E2E Playwright Tests**: End-to-end browser automation testing verifying real-time drag-and-drop between two concurrent browser windows.
